@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "test": "node --test test/",
+    "test": "node --test \"test/**/*.test.js\"",
     "db:migrate": "node db/migrate.js",
     "db:seed": "node db/seed.js",
     "db:role": "node db/create-mcp-role.js",
