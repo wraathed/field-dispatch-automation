@@ -18,23 +18,24 @@ async function sendSummaryEmail({ jobId, techName, customerEmail, price, pdfBuff
   photos.forEach((photo, i) => {
     form.append(`photo_${i}`, photo.buffer, { filename: photo.originalname || `photo_${i}`, contentType: photo.mimetype });
   });
-  await axios.post(config.makeWebhookUrl, form, {
+  const res = await axios.post(config.makeWebhookUrl, form, {
     headers: form.getHeaders(),
     timeout: HTTP_TIMEOUT,
     maxBodyLength: Infinity,
   });
-  return true;
+  // Make answers 200 "Accepted" even when the scenario is switched off (the request is queued on the hook).
+  return { status: res.status, reply: String(res.data ?? "").slice(0, 200) };
 }
 
 // Sends an approved follow-up email via a second Make.com scenario (plain JSON).
 async function sendFollowUpEmail({ followUpId, jobId, to, subject, body }) {
   if (!config.makeFollowUpWebhookUrl) return false;
-  await axios.post(
+  const res = await axios.post(
     config.makeFollowUpWebhookUrl,
     { followUpId, jobId, to, subject, body },
     { timeout: HTTP_TIMEOUT }
   );
-  return true;
+  return { status: res.status, reply: String(res.data ?? "").slice(0, 200) };
 }
 
 module.exports = { sendSummaryEmail, sendFollowUpEmail };

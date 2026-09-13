@@ -49,7 +49,9 @@ async function notify(jobId, { techName, customerEmail, price, pdfBuffer, photos
       summary_sent_at: delivered ? new Date() : null,
       last_error: delivered ? null : 'MAKE_WEBHOOK_URL not configured; email skipped',
     });
-    log(jobId, delivered ? 'customer notified via Make.com' : 'Make.com not configured; marked notified without email');
+    log(jobId, delivered
+      ? `posted to Make.com (HTTP ${delivered.status}, reply: ${JSON.stringify(delivered.reply)}). If the scenario did not run, check that it is switched ON in Make.`
+      : 'Make.com not configured; marked notified without email');
     return job;
   } catch (err) {
     const job = await jobs.updateJob(jobId, { status: 'notify_failed', last_error: String(err.message).slice(0, 1000) });
