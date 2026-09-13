@@ -3,7 +3,7 @@
 require('dotenv').config({ quiet: true });
 const { spawnSync } = require('child_process');
 
-const VARS = ['DATABASE_URL', 'PORTAL_KEY', 'OPENAI_API_KEY', 'MAKE_WEBHOOK_URL', 'MAKE_FOLLOWUP_WEBHOOK_URL', 'BUSINESS_TIMEZONE', 'APP_BASE_URL'];
+const VARS = ['DATABASE_URL', 'MCP_DATABASE_URL', 'MCP_BEARER_TOKEN', 'PORTAL_KEY', 'OPENAI_API_KEY', 'MAKE_WEBHOOK_URL', 'MAKE_FOLLOWUP_WEBHOOK_URL', 'BUSINESS_TIMEZONE', 'APP_BASE_URL'];
 
 const only = process.argv.includes('--env') ? process.argv[process.argv.indexOf('--env') + 1] : null;
 const targets = only ? [only] : ['production', 'preview'];

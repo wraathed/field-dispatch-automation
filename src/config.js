@@ -7,6 +7,7 @@ const config = {
   portalKey: env.PORTAL_KEY || '',
   databaseUrl: env.DATABASE_URL || env.NEON_DB_URL || '',
   mcpDatabaseUrl: env.MCP_DATABASE_URL || '',
+  mcpBearerToken: env.MCP_BEARER_TOKEN || '',
   businessTimezone: env.BUSINESS_TIMEZONE || 'America/New_York',
   openaiApiKey: env.OPENAI_API_KEY || '',
   openaiModel: env.OPENAI_MODEL || 'gpt-4o-mini',

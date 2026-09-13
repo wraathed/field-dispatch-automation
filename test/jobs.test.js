@@ -2,6 +2,11 @@
 const { test, after } = require('node:test');
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
+
+// Never let tests reach external services: blank the webhooks before config reads the environment.
+require('dotenv').config({ quiet: true });
+process.env.MAKE_WEBHOOK_URL = '';
+process.env.MAKE_FOLLOWUP_WEBHOOK_URL = '';
 const config = require('../src/config');
 
 const hasDb = Boolean(config.databaseUrl);

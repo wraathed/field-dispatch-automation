@@ -85,6 +85,18 @@ Demo prompts that work against the seed data:
 - "What did we complete today?"
 - "Draft a friendly follow-up for job DEMO-1006 asking whether the toilet is still running." Then approve it at `/review.html`.
 
+## Remote MCP (connect any agent by URL)
+
+The same six tools are served over MCP Streamable HTTP at `/mcp` on the deployed app, so a viewer can connect their own Claude (or any MCP client) without cloning anything. Access needs a bearer token, `MCP_BEARER_TOKEN`, which is separate from the portal key: it unlocks the tools only, never the approve endpoint. Requests run as the `mcp_agent` database role.
+
+Give a viewer the URL and the token. Then:
+
+- **Claude Code:** `claude mcp add --transport http field-dispatch https://<your-app>.vercel.app/mcp --header "Authorization: Bearer <token>"`
+- **Claude.ai / Claude Desktop connectors, or any client with no header field:** use the token as a path segment: `https://<your-app>.vercel.app/mcp/<token>`
+- **Cursor, Windsurf, etc.:** URL plus an `Authorization: Bearer <token>` header in their MCP settings.
+
+Rotate the token in Vercel to cut off every connected agent at once. The endpoint is stateless (one JSON response per request), which is what a serverless host can serve.
+
 ## Deploy to Vercel
 
 The app runs as one serverless function (`api/index.js`) with `public/` served statically. PDFs are generated in memory and stored in Postgres, so nothing touches the filesystem.
@@ -92,7 +104,7 @@ The app runs as one serverless function (`api/index.js`) with `public/` served s
 ```bash
 npx vercel login
 npx vercel link                    # create / pick the project
-node scripts/vercel-env.js         # pushes DATABASE_URL, PORTAL_KEY, OPENAI_API_KEY, MAKE_* , BUSINESS_TIMEZONE from .env
+node scripts/vercel-env.js         # pushes DATABASE_URL, MCP_DATABASE_URL, MCP_BEARER_TOKEN, PORTAL_KEY, OPENAI_API_KEY, MAKE_*, BUSINESS_TIMEZONE, APP_BASE_URL from .env
 npx vercel --prod
 ```
 

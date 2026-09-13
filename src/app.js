@@ -10,12 +10,17 @@ const jobs = require('./jobs');
 const followups = require('./followups');
 const pipeline = require('./pipeline');
 const db = require('./db');
+const mcpHttp = require('./mcp-http');
 
 const app = express();
 app.disable('x-powered-by');
 app.set('trust proxy', true);
 
-app.use(cors({ origin: true, allowedHeaders: ['Content-Type', 'x-portal-key', 'Authorization'] }));
+app.use(cors({
+  origin: true,
+  allowedHeaders: ['Content-Type', 'x-portal-key', 'x-reviewer', 'Authorization', 'Accept', 'mcp-protocol-version', 'mcp-session-id', 'last-event-id'],
+  exposedHeaders: ['mcp-session-id', 'mcp-protocol-version'],
+}));
 app.use(express.json({ limit: '200kb' }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
@@ -40,6 +45,9 @@ app.get('/api/health', wrap(async (_req, res) => {
   try { await db.query('SELECT 1'); } catch (err) { database = `error: ${err.message}`; }
   res.json({ ok: database === 'ok', database, timezone: config.businessTimezone, version: require('../package.json').version });
 }));
+
+// --- Remote MCP (own bearer token, least-privilege db role) ---
+app.use(mcpHttp);
 
 // --- Authenticated ---
 const api = express.Router();
