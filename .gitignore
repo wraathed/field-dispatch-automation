@@ -1,0 +1,17 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# dependencies
+node_modules/
+
+# runtime artifacts (local dev only; production uses in-memory buffers + Postgres)
+uploads/
+
+# vercel
+.vercel/
+
+# misc
+*.log
+.DS_Store

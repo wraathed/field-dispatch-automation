@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Portal | Job Completion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="active">Complete a job</a>
+        <a href="review.html">Review queue</a>
+    </nav>
+
+    <div class="container">
+        <h1>Complete Job</h1>
+        <p class="muted">Submits the technician's notes, generates a customer-facing summary PDF, records the job, and emails the customer.</p>
+
+        <details class="access">
+            <summary>Portal access</summary>
+            <label for="portalKey">Portal key</label>
+            <input type="password" id="portalKey" autocomplete="off" placeholder="Shared key from your office">
+            <label for="reviewerName">Your name (for the audit trail)</label>
+            <input type="text" id="reviewerName" placeholder="e.g. Tanya">
+        </details>
+
+        <form id="jobForm">
+            <label for="techName">Technician</label>
+            <input type="text" id="techName" value="Mark Ellison" required maxlength="120">
+
+            <label for="jobId">Job ID</label>
+            <input type="text" id="jobId" required pattern="[A-Za-z0-9][A-Za-z0-9_\-]{0,63}" title="Letters, digits, _ or -" placeholder="e.g. 1043">
+
+            <label for="customerEmail">Customer Email</label>
+            <input type="email" id="customerEmail" value="customer@example.com" required>
+
+            <label for="rawNotes">Raw Field Notes (messy/shorthand)</label>
+            <textarea id="rawNotes" rows="4" required minlength="5" maxlength="5000">fixed pipe under sink. was leaking bad. replaced 2 inch pvc trap. tested water pressure. all good. customer happy.</textarea>
+
+            <label for="jobPrice">Job Price ($)</label>
+            <input type="number" id="jobPrice" value="250" min="0.01" step="0.01" required>
+
+            <label for="jobPhotos">Photos (up to 3, 1.5 MB each)</label>
+            <input type="file" id="jobPhotos" multiple accept="image/jpeg,image/png,image/webp">
+
+            <button type="submit" id="submitBtn">Complete Job &amp; Sync</button>
+        </form>
+        <div id="status" role="status"></div>
+        <div id="result"></div>
+    </div>
+    <script src="portal.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Portal | Review Queue</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html">Complete a job</a>
+        <a href="review.html" class="active">Review queue</a>
+    </nav>
+
+    <div class="container wide">
+        <h1>Review Queue</h1>
+        <p class="muted">Follow-up drafts written by the agent land here. Nothing is sent to a customer until someone approves it.</p>
+
+        <details class="access">
+            <summary>Portal access</summary>
+            <label for="portalKey">Portal key</label>
+            <input type="password" id="portalKey" autocomplete="off" placeholder="Shared key from your office">
+            <label for="reviewerName">Your name (recorded on approvals)</label>
+            <input type="text" id="reviewerName" placeholder="e.g. Tanya">
+        </details>
+
+        <div class="toolbar">
+            <button type="button" id="refreshBtn" class="secondary">Refresh</button>
+            <span id="status" role="status"></span>
+        </div>
+
+        <section>
+            <h2>Drafts awaiting approval <span id="draftCount" class="pill"></span></h2>
+            <div id="drafts" class="list"></div>
+        </section>
+
+        <section>
+            <h2>Customers without a follow-up (last 7 days) <span id="missingCount" class="pill"></span></h2>
+            <div id="missing" class="list"></div>
+        </section>
+
+        <section>
+            <h2>Recent jobs</h2>
+            <div class="table-wrap">
+                <table id="jobsTable">
+                    <thead><tr><th>Job</th><th>Customer</th><th>Tech</th><th>Price</th><th>Status</th><th>Completed</th><th></th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Recent follow-up activity</h2>
+            <div id="history" class="list"></div>
+        </section>
+    </div>
+    <script src="portal.js"></script>
+    <script src="review.js"></script>
+</body>
+</html>
